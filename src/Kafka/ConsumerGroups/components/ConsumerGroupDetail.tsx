@@ -7,14 +7,13 @@ import {
   Text,
 } from "@patternfly/react-core";
 import {
-  cellWidth,
   TableComposable,
+  TableVariant,
   Tbody,
   Td,
   Th,
   Thead,
   Tr,
-  wrappable,
 } from "@patternfly/react-table";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
@@ -31,60 +30,14 @@ export const ConsumerGroupDetail: FunctionComponent<
 > = ({ consumerGroupByTopic, consumerGroupDetail }) => {
   const { t } = useTranslation(["kafka"]);
 
-  const columns = consumerGroupByTopic
-    ? [
-        {
-          title: t("consumerGroup.partition"),
-          transforms: [wrappable, cellWidth(20)],
-        },
-        {
-          title: t("consumerGroup.consumer_id"),
-          transforms: [wrappable, cellWidth(20)],
-        },
-        {
-          title: t("consumerGroup.current_offset"),
-          transforms: [wrappable, cellWidth(20)],
-        },
-        {
-          title: t("consumerGroup.log_end_offset"),
-          transforms: [wrappable, cellWidth(20)],
-        },
-        {
-          title: t("consumerGroup.offset_lag"),
-          transforms: [wrappable, cellWidth(20)],
-        },
-        {
-          title: "",
-          dataLabel: t("common.action"),
-        },
-      ]
-    : [
-        { title: t("topic.topic"), transforms: [wrappable, cellWidth(20)] },
-        {
-          title: t("consumerGroup.partition"),
-          transforms: [wrappable, cellWidth(20)],
-        },
-        {
-          title: t("consumerGroup.consumer_id"),
-          transforms: [wrappable, cellWidth(20)],
-        },
-        {
-          title: t("consumerGroup.current_offset"),
-          transforms: [wrappable, cellWidth(20)],
-        },
-        {
-          title: t("consumerGroup.log_end_offset"),
-          transforms: [wrappable, cellWidth(20)],
-        },
-        {
-          title: t("consumerGroup.offset_lag"),
-          transforms: [wrappable, cellWidth(20)],
-        },
-        {
-          title: "",
-          dataLabel: t("common.action"),
-        },
-      ];
+  const columnNames = {
+    topic: t("topic.topic"),
+    partition: t("consumerGroup.partition"),
+    consumer_id: t("consumerGroup.consumer_id"),
+    current_offset: t("consumerGroup.current_offset"),
+    log_end_offset: t("consumerGroup.log_end_offset"),
+    offset_lag: t("consumerGroup.offset_lag"),
+  };
 
   return (
     <Stack hasGutter>
@@ -136,54 +89,102 @@ export const ConsumerGroupDetail: FunctionComponent<
       </TextContent>
       <TableComposable
         aria-label={t("consumerGroup.consumer_group_info_table_aria")}
+        variant={TableVariant.compact}
       >
-        <Thead>
+        <Thead noWrap>
           <Tr>
-            {columns.map((column) => (
-              <Th>{column.title}</Th>
-            ))}
+            {consumerGroupByTopic
+              ? [
+                  <Th key={columnNames.partition} width={20}>
+                    {columnNames.partition}
+                  </Th>,
+                  <Th key={columnNames.consumer_id} width={20}>
+                    {columnNames.consumer_id}
+                  </Th>,
+                  <Th key={columnNames.current_offset} width={20}>
+                    {columnNames.current_offset}
+                  </Th>,
+                  <Th key={columnNames.log_end_offset} width={20}>
+                    {columnNames.log_end_offset}
+                  </Th>,
+                  <Th key={columnNames.offset_lag} width={20}>
+                    {columnNames.offset_lag}
+                  </Th>,
+                ]
+              : [
+                  <Th key={columnNames.topic} width={20}>
+                    {columnNames.topic}
+                  </Th>,
+                  <Th key={columnNames.partition} width={20}>
+                    {columnNames.partition}
+                  </Th>,
+                  <Th key={columnNames.consumer_id} width={20}>
+                    {columnNames.consumer_id}
+                  </Th>,
+                  <Th key={columnNames.current_offset} width={20}>
+                    {columnNames.current_offset}
+                  </Th>,
+                  <Th key={columnNames.log_end_offset} width={20}>
+                    {columnNames.log_end_offset}
+                  </Th>,
+                  <Th key={columnNames.offset_lag} width={20}>
+                    {columnNames.offset_lag}
+                  </Th>,
+                ]}
           </Tr>
         </Thead>
         <Tbody>
           {(consumerGroupDetail &&
             consumerGroupDetail.consumers.map((consumergroup) => {
               return (
-                <Tr>
+                <Tr key={consumergroup.groupId}>
                   {consumerGroupByTopic
                     ? [
-                        <Td>{consumergroup.partition}</Td>,
-                        consumergroup.memberId ? (
-                          <Td>
-                            {consumergroup.groupId +
-                              "\n" +
-                              consumergroup.memberId}
-                          </Td>
-                        ) : (
-                          <Td>
+                        <Td key={columnNames.partition}>
+                          {consumergroup.partition}
+                        </Td>,
+                        <Td key={columnNames.consumer_id}>
+                          {consumergroup.memberId ? (
+                            consumergroup.groupId +
+                            "\n" +
+                            consumergroup.memberId
+                          ) : (
                             <i>{t("consumerGroup.unassigned")}</i>
-                          </Td>
-                        ),
-                        <Td>{consumergroup.offset}</Td>,
-                        <Td>{consumergroup.logEndOffset}</Td>,
-                        <Td>{consumergroup.lag}</Td>,
+                          )}{" "}
+                        </Td>,
+                        <Td key={columnNames.current_offset}>
+                          {consumergroup.offset}
+                        </Td>,
+                        <Td key={columnNames.log_end_offset}>
+                          {consumergroup.logEndOffset}
+                        </Td>,
+                        <Td key={columnNames.offset_lag}>
+                          {consumergroup.lag}
+                        </Td>,
                       ]
                     : [
-                        <Td>{consumergroup.topic}</Td>,
-                        <Td>{consumergroup.partition}</Td>,
-                        consumergroup.memberId ? (
-                          <Td>
-                            {consumergroup.groupId +
-                              "\n" +
-                              consumergroup.memberId}
-                          </Td>
-                        ) : (
-                          <Td>
+                        <Td key={columnNames.topic}>{consumergroup.topic}</Td>,
+                        <Td key={columnNames.partition}>
+                          {consumergroup.partition}
+                        </Td>,
+                        <Td key={columnNames.consumer_id}>
+                          {consumergroup.memberId ? (
+                            consumergroup.groupId +
+                            "\n" +
+                            consumergroup.memberId
+                          ) : (
                             <i>{t("consumerGroup.unassigned")}</i>
-                          </Td>
-                        ),
-                        <Td>{consumergroup.offset}</Td>,
-                        <Td>{consumergroup.logEndOffset}</Td>,
-                        <Td>{consumergroup.lag}</Td>,
+                          )}{" "}
+                        </Td>,
+                        <Td key={columnNames.current_offset}>
+                          {consumergroup.offset}
+                        </Td>,
+                        <Td key={columnNames.log_end_offset}>
+                          {consumergroup.logEndOffset}
+                        </Td>,
+                        <Td key={columnNames.offset_lag}>
+                          {consumergroup.lag}
+                        </Td>,
                       ]}
                 </Tr>
               );
