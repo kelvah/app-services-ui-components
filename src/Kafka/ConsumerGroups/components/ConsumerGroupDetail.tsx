@@ -49,14 +49,14 @@ export const ConsumerGroupDetail: FunctionComponent<
                 ? t("consumerGroup.active_members_for_topic")
                 : t("consumerGroup.active_members")}{" "}
             </Text>
-            <Text component={TextVariants.p}>
+            <div>
               <Text component={TextVariants.h2}>
                 {consumerGroupDetail &&
                   consumerGroupDetail.consumers.reduce(function (prev, cur) {
                     return prev + (cur.partition != -1 ? 1 : 0);
                   }, 0)}
               </Text>
-            </Text>
+            </div>
           </FlexItem>
           <FlexItem>
             <Text component={TextVariants.h4}>
@@ -68,22 +68,22 @@ export const ConsumerGroupDetail: FunctionComponent<
                 description={t("consumerGroup.partitions_with_lag_description")}
               />
             </Text>
-            <Text component={TextVariants.p}>
+            <div>
               <Text component={TextVariants.h2}>
                 {consumerGroupDetail &&
                   consumerGroupDetail.consumers.reduce(function (prev, cur) {
                     return prev + (cur.lag > 0 ? 1 : 0);
                   }, 0)}
               </Text>
-            </Text>
+            </div>
           </FlexItem>
           <FlexItem>
             <Text component={TextVariants.h4}>{t("consumerGroup.state")}</Text>
-            <Text component={TextVariants.p}>
+            <div>
               <Text component={TextVariants.h2}>
                 {consumerGroupDetail?.state}
               </Text>
-            </Text>
+            </div>
           </FlexItem>
         </Flex>
       </TextContent>
