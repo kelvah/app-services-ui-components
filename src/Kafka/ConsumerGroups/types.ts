@@ -55,7 +55,7 @@ export interface ConsumerGroup {
    * @type {string}
    * @memberof ConsumerGroup
    */
-  state?: ConsumerGroupStateEnum;
+  state: ConsumerGroupStateEnum;
   /**
    * The list of consumers associated with this consumer group
    * @type {Array<Consumer>}

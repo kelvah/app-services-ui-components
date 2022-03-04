@@ -19,6 +19,7 @@ import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 import { ConsumerGroupPopover } from "./ConsumerGroupPopover";
 import { ConsumerGroup } from "../types";
+import { displayConsumerGroupState } from "../utils";
 
 export type ConsumerGroupDetailProps = {
   consumerGroupByTopic: boolean;
@@ -81,7 +82,7 @@ export const ConsumerGroupDetail: FunctionComponent<
             <Text component={TextVariants.h4}>{t("consumerGroup.state")}</Text>
             <div>
               <Text component={TextVariants.h2}>
-                {consumerGroupDetail?.state}
+                {displayConsumerGroupState[consumerGroupDetail.state]}
               </Text>
             </div>
           </FlexItem>
