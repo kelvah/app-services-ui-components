@@ -74,5 +74,4 @@ export enum ConsumerGroupStateEnum {
   CompletingRebalance = "COMPLETING_REBALANCE",
   PreparingRebalance = "PREPARING_REBALANCE",
   Unknown = "UNKNOWN",
-  default = "Default",
 }
