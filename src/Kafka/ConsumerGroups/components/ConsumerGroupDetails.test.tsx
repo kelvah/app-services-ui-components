@@ -23,7 +23,6 @@ describe("Consumer group details", () => {
   it("Consumer group table should not include a topic column at topic level", async () => {
     const comp = render(<ConsumerGroupDetailsAtTopicLevel />);
     await waitForI18n(comp);
-
     expect(
       await comp.findByText("Active members for this topic")
     ).toBeInTheDocument();
